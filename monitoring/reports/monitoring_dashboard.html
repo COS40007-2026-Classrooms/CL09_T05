@@ -1,0 +1,23 @@
+<!doctype html><meta charset=utf-8>
+<title>Obesity Model — Monitoring Dashboard</title>
+<style>
+  body{font-family:system-ui;margin:2rem;max-width:960px}
+  table{border-collapse:collapse;width:100%} td,th{border:1px solid #ccc;padding:6px}
+  th{background:#f0f0f0}
+  .alert{padding:1rem;background:#fee;border:1px solid #f99;border-radius:6px;margin:1rem 0}
+  .ok{padding:1rem;background:#efe;border:1px solid #9c9;border-radius:6px;margin:1rem 0}
+</style>
+<h1>Obesity Model — Monitoring Dashboard</h1>
+<p>Generated: 2026-05-23T11:52:11.785551</p>
+<div class="ok">
+  <b>Drift detected:</b> False &nbsp;|&nbsp;
+  <b>Retrain needed:</b> False<br>
+  <b>Summary:</b> {"status": "ok", "features_checked": 17, "features_drifted": 0, "drift_fraction": 0.0, "drifted_numeric": [], "drifted_categorical": [], "drift_detected": false, "retrain_needed": false}
+</div>
+<h2>Performance</h2><p>F1-macro: <b style='color:green'>1.0</b> (threshold 0.8)</p><p>Accuracy: 1.0</p>
+<h2>Numeric feature drift (KS test)</h2>
+<table><tr><th>Feature</th><th>KS</th><th>p-value</th><th>PSI</th><th>Drift?</th></tr>
+<tr><td>Age</td><td>0.063</td><td>0.9848</td><td>0.063</td><td style='color:green'>no</td></tr><tr><td>Height</td><td>0.158</td><td>0.1579</td><td>0.179</td><td style='color:green'>no</td></tr><tr><td>Weight</td><td>0.095</td><td>0.7416</td><td>0.148</td><td style='color:green'>no</td></tr><tr><td>FCVC</td><td>0.123</td><td>0.4234</td><td>0.089</td><td style='color:green'>no</td></tr><tr><td>NCP</td><td>0.129</td><td>0.3587</td><td>0.133</td><td style='color:green'>no</td></tr><tr><td>CH2O</td><td>0.128</td><td>0.3689</td><td>0.348</td><td style='color:green'>no</td></tr><tr><td>FAF</td><td>0.165</td><td>0.1278</td><td>0.170</td><td style='color:green'>no</td></tr><tr><td>TUE</td><td>0.110</td><td>0.5642</td><td>0.114</td><td style='color:green'>no</td></tr><tr><td>BMI</td><td>0.078</td><td>0.9032</td><td>0.171</td><td style='color:green'>no</td></tr></table>
+<h2>Categorical feature drift (chi-squared)</h2>
+<table><tr><th>Feature</th><th>chi2</th><th>p-value</th><th>PSI</th><th>Drift?</th></tr>
+<tr><td>Gender</td><td>—</td><td>0.0841</td><td>—</td><td style='color:green'>no</td></tr><tr><td>family_history_with_overweight</td><td>—</td><td>0.3399</td><td>—</td><td style='color:green'>no</td></tr><tr><td>FAVC</td><td>—</td><td>0.1304</td><td>—</td><td style='color:green'>no</td></tr><tr><td>CAEC</td><td>—</td><td>0.1963</td><td>—</td><td style='color:green'>no</td></tr><tr><td>SMOKE</td><td>—</td><td>1.0000</td><td>—</td><td style='color:green'>no</td></tr><tr><td>SCC</td><td>—</td><td>1.0000</td><td>—</td><td style='color:green'>no</td></tr><tr><td>CALC</td><td>—</td><td>0.9577</td><td>—</td><td style='color:green'>no</td></tr><tr><td>MTRANS</td><td>—</td><td>0.7530</td><td>—</td><td style='color:green'>no</td></tr></table>

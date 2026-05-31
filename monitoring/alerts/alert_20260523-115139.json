@@ -1,0 +1,157 @@
+{
+  "timestamp": "2026-05-23T11:51:39.126674",
+  "drift_detected": true,
+  "retrain_needed": true,
+  "numeric_drift": {
+    "Age": {
+      "ks_statistic": 0.9982227488151659,
+      "p_value": 1.2839075493487778e-135,
+      "drift": true,
+      "train_mean": 37.7446682464455,
+      "new_mean": 73.04625
+    },
+    "Height": {
+      "ks_statistic": 0.1037914691943128,
+      "p_value": 0.35753578662536933,
+      "drift": false,
+      "train_mean": 1.7243098341232226,
+      "new_mean": 1.7446787499999998
+    },
+    "Weight": {
+      "ks_statistic": 0.6101303317535545,
+      "p_value": 1.0974033078953132e-27,
+      "drift": true,
+      "train_mean": 97.02027843601897,
+      "new_mean": 131.36225
+    },
+    "FCVC": {
+      "ks_statistic": 0.05906398104265403,
+      "p_value": 0.9376969760708592,
+      "drift": false,
+      "train_mean": 2.0248762440758297,
+      "new_mean": 2.04575875
+    },
+    "NCP": {
+      "ks_statistic": 0.07837677725118483,
+      "p_value": 0.7052992529343745,
+      "drift": false,
+      "train_mean": 2.502968305687204,
+      "new_mean": 2.43468375
+    },
+    "CH2O": {
+      "ks_statistic": 0.14046208530805687,
+      "p_value": 0.08877577891803518,
+      "drift": false,
+      "train_mean": 1.9867681279620852,
+      "new_mean": 2.1239625
+    },
+    "FAF": {
+      "ks_statistic": 0.1,
+      "p_value": 0.4024237386010773,
+      "drift": false,
+      "train_mean": 1.54399567535545,
+      "new_mean": 1.6313862499999998
+    },
+    "TUE": {
+      "ks_statistic": 0.08690758293838863,
+      "p_value": 0.579776654180017,
+      "drift": false,
+      "train_mean": 1.0138052132701423,
+      "new_mean": 0.95636625
+    },
+    "BMI": {
+      "ks_statistic": 0.4832938388625592,
+      "p_value": 6.668178575538065e-17,
+      "drift": true,
+      "train_mean": 32.46647332527453,
+      "new_mean": 43.93729225561019
+    }
+  },
+  "categorical_drift": {
+    "Gender": {
+      "chi2": 0.12440092206129329,
+      "p_value": 0.7243094988765044,
+      "drift": false
+    },
+    "family_history_with_overweight": {
+      "chi2": 70.69531808656146,
+      "p_value": 4.1688063432100817e-17,
+      "drift": true
+    },
+    "FAVC": {
+      "chi2": 109.40569824280459,
+      "p_value": 1.3224883618083598e-25,
+      "drift": true
+    },
+    "CAEC": {
+      "chi2": 273.6724238276808,
+      "p_value": 4.9536136120941435e-59,
+      "drift": true
+    },
+    "SMOKE": {
+      "chi2": 181.2781574523133,
+      "p_value": 2.5488954709127107e-41,
+      "drift": true
+    },
+    "SCC": {
+      "chi2": 290.2582810594498,
+      "p_value": 4.367966463463771e-65,
+      "drift": true
+    },
+    "CALC": {
+      "chi2": 163.33249002397199,
+      "p_value": 3.4987406205643985e-35,
+      "drift": true
+    },
+    "MTRANS": {
+      "chi2": 243.05579544907036,
+      "p_value": 2.0386355962901815e-51,
+      "drift": true
+    }
+  },
+  "psi_scores": {
+    "Age": 14.678233006169036,
+    "Height": 0.16178236841647348,
+    "Weight": 10.28816778440978,
+    "FCVC": 0.05157866636308538,
+    "NCP": 0.0236595861638922,
+    "CH2O": 0.17372828428027043,
+    "FAF": 0.1082929814379672,
+    "TUE": 0.16812694608722834,
+    "BMI": 5.393729843854942
+  },
+  "data_quality": {
+    "new_rows": 80,
+    "new_null_rate": 0.0,
+    "missing_columns": [],
+    "extra_columns": []
+  },
+  "performance": {
+    "f1_macro": 1.0,
+    "accuracy": 1.0,
+    "threshold": 0.8,
+    "below_threshold": false
+  },
+  "summary": {
+    "status": "ok",
+    "features_checked": 17,
+    "features_drifted": 10,
+    "drift_fraction": 0.5882352941176471,
+    "drifted_numeric": [
+      "Age",
+      "Weight",
+      "BMI"
+    ],
+    "drifted_categorical": [
+      "family_history_with_overweight",
+      "FAVC",
+      "CAEC",
+      "SMOKE",
+      "SCC",
+      "CALC",
+      "MTRANS"
+    ],
+    "drift_detected": true,
+    "retrain_needed": true
+  }
+}

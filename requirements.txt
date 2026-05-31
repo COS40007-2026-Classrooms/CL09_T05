@@ -1,6 +1,9 @@
-tensorflow
-numpy
-matplotlib
-pandas
-seaborn
-scikit-learn
+dvc==3.55.2
+scikit-learn==1.5.0
+xgboost==2.0.3
+numpy==1.26.4
+pandas==2.2.2
+scipy==1.13.1
+joblib==1.4.2
+matplotlib==3.9.0
+imbalanced-learn==0.12.3

@@ -1,0 +1,71 @@
+stages:
+  preprocess:
+    cmd: python src/preprocess_new_data.py
+    deps:
+      - src/preprocess_new_data.py
+      - train/train.csv
+      - test/test.csv
+      - data
+    outs:
+      - artifacts/data/X_train.npy
+      - artifacts/data/y_train.npy
+      - artifacts/data/X_test.npy
+      - artifacts/data/y_test.npy
+      - artifacts/data/X_train_raw.npy
+      - artifacts/preprocessing/feature_columns.json
+      - artifacts/preprocessing/scaler.pkl
+      - artifacts/preprocessing/label_encoder.pkl
+      - artifacts/preprocessing/cat_encoders.pkl
+      - artifacts/metadata/data_version.txt
+
+  train:
+    cmd: python src/model.py
+    deps:
+      - src/model.py
+      - artifacts/data/X_train.npy
+      - artifacts/data/y_train.npy
+      - artifacts/data/X_test.npy
+      - artifacts/data/y_test.npy
+      - artifacts/preprocessing/label_encoder.pkl
+    outs:
+      - artifacts/models/model.pkl
+      - artifacts/models/baseline_lr.pkl
+      - artifacts/models/random_forest.pkl
+      - artifacts/metadata/model_version.txt
+      - artifacts/metadata/last_retrain.txt
+    metrics:
+      - artifacts/metrics/training_history.json:
+          cache: false
+
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+      - src/evaluate.py
+      - artifacts/models/model.pkl
+      - artifacts/data/X_test.npy
+      - artifacts/data/y_test.npy
+      - artifacts/preprocessing/label_encoder.pkl
+    outs:
+      - reports/confusion_matrix.png:
+          cache: false
+      - reports/per_class_f1.png:
+          cache: false
+    metrics:
+      - artifacts/metrics/evaluation_metrics.json:
+          cache: false
+
+  monitor:
+    cmd: python src/monitor.py
+    deps:
+      - src/monitor.py
+      - train/train.csv
+      - data
+      - artifacts/metrics/evaluation_metrics.json
+    outs:
+      - monitoring/reports/drift_report.json:
+          cache: false
+      - monitoring/reports/monitoring_dashboard.html:
+          cache: false
+    metrics:
+      - artifacts/metrics/monitoring_metrics.json:
+          cache: false

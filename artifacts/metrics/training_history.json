@@ -1,0 +1,78 @@
+{
+  "timestamp": "2026-05-23T11:52:09.095948",
+  "selected_model": "RandomForest",
+  "best_params": {
+    "max_depth": 20,
+    "min_samples_leaf": 1,
+    "n_estimators": 100
+  },
+  "baseline_logistic_regression": {
+    "f1_macro": 0.6750440597861037,
+    "accuracy": 0.706855791962175
+  },
+  "random_forest": {
+    "f1_macro": 1.0,
+    "accuracy": 1.0
+  },
+  "selected": {
+    "f1_macro": 1.0,
+    "accuracy": 1.0
+  },
+  "classification_report": {
+    "Insufficient_Weight": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 30.0
+    },
+    "Normal_Weight": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 48.0
+    },
+    "Obesity_Type_I": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 80.0
+    },
+    "Obesity_Type_II": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 78.0
+    },
+    "Obesity_Type_III": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 80.0
+    },
+    "Overweight_Level_I": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 53.0
+    },
+    "Overweight_Level_II": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 54.0
+    },
+    "accuracy": 1.0,
+    "macro avg": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 423.0
+    },
+    "weighted avg": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 423.0
+    }
+  }
+}

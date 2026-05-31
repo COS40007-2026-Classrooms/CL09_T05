@@ -1,0 +1,10 @@
+{
+  "status": "ok",
+  "features_checked": 17,
+  "features_drifted": 0,
+  "drift_fraction": 0.0,
+  "drifted_numeric": [],
+  "drifted_categorical": [],
+  "drift_detected": false,
+  "retrain_needed": false
+}
