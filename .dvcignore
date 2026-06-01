@@ -1,0 +1,6 @@
+# files DVC should ignore when computing hashes
+.github/
+logs/
+monitoring/logs/
+monitoring/alerts/
+*.md

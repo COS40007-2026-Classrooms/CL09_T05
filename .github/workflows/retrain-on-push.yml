@@ -1,0 +1,144 @@
+name: Retrain on Data Push
+
+on:
+  # Trigger 1 — data / code push (automated on new data)
+  push:
+    branches: [main]
+    paths:
+      - 'data/**'
+      - 'train/**'
+      - 'test/**'
+      - 'src/**'
+      - 'dvc.yaml'
+      - 'requirements.txt'
+
+  # Trigger 2 — weekly scheduled retrain (every Monday 02:00 UTC)
+  schedule:
+    - cron: '0 2 * * 1'
+
+  # Trigger 3 — manual run from the Actions tab
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for manual retrain'
+        required: false
+        default: 'manual trigger'
+
+permissions:
+  contents: write   # needed to commit refreshed artefacts back
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      # ── 1. Checkout ───────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ── 2. Python setup ───────────────────────────────────────────────────
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # ── 3. Install dependencies ───────────────────────────────────────────
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # ── 4. Show trigger context ───────────────────────────────────────────
+      - name: Show trigger context
+        run: |
+          echo "### Retrain triggered" >> $GITHUB_STEP_SUMMARY
+          echo "| Field | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+          echo "| Event | ${{ github.event_name }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Reason | ${{ github.event.inputs.reason }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Branch | ${{ github.ref_name }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| SHA | ${{ github.sha }} |" >> $GITHUB_STEP_SUMMARY
+
+      # ── 5. DVC init (no remote — local cache only) ─────────────────────────
+      - name: Initialise DVC
+        run: |
+          dvc init --no-scm 2>/dev/null || true
+
+      # ── 6. Run full pipeline: preprocess → train → evaluate → monitor ──────
+      - name: Run DVC pipeline
+        run: |
+          dvc repro --force
+
+      # ── 7. Write metrics summary to Actions step summary ──────────────────
+      - name: Write metrics to step summary
+        run: |
+          echo "## Evaluation Metrics" >> $GITHUB_STEP_SUMMARY
+          echo '```json' >> $GITHUB_STEP_SUMMARY
+          cat artifacts/metrics/evaluation_metrics.json >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "## Monitoring Summary" >> $GITHUB_STEP_SUMMARY
+          echo '```json' >> $GITHUB_STEP_SUMMARY
+          cat artifacts/metrics/monitoring_metrics.json >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      # ── 8. Fail & alert if F1-macro drops below 0.80 ──────────────────────
+      - name: Check performance threshold
+        run: |
+          python - <<'PY'
+          import json, sys, pathlib
+          p = pathlib.Path("artifacts/metrics/evaluation_metrics.json")
+          if not p.exists():
+              print("No evaluation metrics found"); sys.exit(0)
+          m = json.loads(p.read_text())
+          f1 = m.get("f1_macro", 1.0)
+          print(f"F1-macro = {f1:.4f}")
+          if f1 < 0.80:
+              print(f"::warning title=Performance degradation::F1-macro {f1:.4f} < 0.80")
+          PY
+
+      # ── 9. Alert if data drift detected ───────────────────────────────────
+      - name: Check drift report
+        run: |
+          python - <<'PY'
+          import json, sys, pathlib
+          p = pathlib.Path("monitoring/reports/drift_report.json")
+          if not p.exists():
+              print("No drift report"); sys.exit(0)
+          r = json.loads(p.read_text())
+          if r.get("drift_detected"):
+              print("::warning title=Data drift::Drift detected — check monitoring_dashboard.html")
+          if r.get("retrain_needed"):
+              print("::warning title=Retrain needed::Model retrain recommended")
+          PY
+
+      # ── 10. Upload all artefacts ───────────────────────────────────────────
+      - name: Upload artefacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: obesity-model-artefacts-run-${{ github.run_number }}
+          path: |
+            artifacts/
+            monitoring/reports/
+            reports/
+            logs/
+          retention-days: 30
+
+      # ── 11. Commit refreshed artefacts back to repo ────────────────────────
+      - name: Commit artefacts
+        if: github.event_name != 'pull_request'
+        continue-on-error: true
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add artifacts/metrics/ monitoring/reports/ reports/ dvc.lock || true
+          if git diff --cached --quiet; then
+            echo "No artefact changes to commit"
+          else
+            git commit -m "chore(ci): refresh model artefacts after retrain [skip ci]"
+            git pull --rebase origin "${GITHUB_REF_NAME}" || true
+            git push || echo "Push skipped (another run updated the branch); artefacts are still in the uploaded bundle."
+          fi
