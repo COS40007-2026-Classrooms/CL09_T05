@@ -3,9 +3,14 @@ name: Train ML Model
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    paths:
+      - 'task2/**'
+      - '.github/workflows/train.yml'
   workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: task2
 
 jobs:
   train:
@@ -24,7 +29,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('task2/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
@@ -39,15 +44,16 @@ jobs:
         with:
           name: model-results
           path: |
-            model_results.png
-            predictions_vs_actual.png
-            residuals_analysis.png
-            metrics.txt
-            metrics.json
-            model_summary.txt
-            submission_5.csv
-            cnn_regression_model.h5
-            data_info.json
-            summary_report.txt
+            task2/model_results.png
+            task2/predictions_vs_actual.png
+            task2/residuals_analysis.png
+            task2/metrics.txt
+            task2/metrics.json
+            task2/model_summary.txt
+            task2/submission_5.csv
+            task2/cnn_regression_model.h5
+            task2/data_info.json
+            task2/summary_report.txt
           compression-level: 9
           retention-days: 90
+          if-no-files-found: ignore

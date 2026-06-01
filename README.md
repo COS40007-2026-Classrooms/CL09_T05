@@ -1,40 +1,13 @@
-# Retraining & Monitoring — Group Task 3
+# CL09_T05 — COS40007 AI Engineering
 
-Automated MLOps pipeline that retrains and monitors a 1D-CNN regression model
-whenever new data is pushed.
+Group project repository. Each task lives in its own folder with its own
+GitHub Actions workflow.
 
-## Triggers
-- **Push** to `data/**`, `train/**`, `src/**`, or `dvc.yaml`
-- **Schedule** weekly (Monday 02:00 UTC)
-- **Manual** via `workflow_dispatch` (Actions → *Run workflow*)
+## task2/ — GitHub Actions CI/CD (Mercedes-Benz dataset)
+1D CNN regression model. Workflow `.github/workflows/train.yml` trains the
+model on every push to `task2/`.
 
-## Pipeline (DVC)
-```
-preprocess → train → evaluate → monitor
-```
-Run locally:
-```bash
-pip install -r requirements.txt
-dvc repro
-```
-
-## Triggering a retrain
-```bash
-cp /path/to/new_data.csv data/
-git add data/new_data.csv
-git commit -m "data: add new batch for retraining"
-git push
-```
-
-## Layout
-```
-.github/workflows/retrain-on-push.yml   # CI/CD
-src/                                    # pipeline scripts
-data/        train/        test/        # input data
-artifacts/   models, data, preprocessing, metrics, metadata
-monitoring/  reports, logs, alerts
-reports/     plots + HTML dashboard
-dvc.yaml                                # pipeline definition
-```
-
-See [REPORT.md](REPORT.md) for the Group Task 3 write-up.
+## task3/ — Scaling & Monitoring (Obesity dataset)
+Random Forest classifier with a DVC pipeline (preprocess → train → evaluate →
+monitor) and drift monitoring. Workflow `.github/workflows/retrain-on-push.yml`
+retrains on push, on a weekly schedule, and manually.
