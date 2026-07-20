@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-13T05:44:13.636392",
+  "timestamp": "2026-07-20T05:48:04.184921",
   "drift_detected": false,
   "retrain_needed": false,
   "numeric_drift": {
@@ -99,13 +99,13 @@
       "drift": false
     },
     "CALC": {
-      "chi2": 0.31220257632462406,
+      "chi2": 0.312202576324624,
       "p_value": 0.9577174044042995,
       "drift": false
     },
     "MTRANS": {
-      "chi2": 1.9063408909933688,
-      "p_value": 0.7529800664350473,
+      "chi2": 1.9063408909933686,
+      "p_value": 0.7529800664350474,
       "drift": false
     }
   },
