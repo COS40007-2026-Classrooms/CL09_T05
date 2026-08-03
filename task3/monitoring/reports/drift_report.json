@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-27T05:56:36.730191",
+  "timestamp": "2026-08-03T03:12:15.988726",
   "drift_detected": false,
   "retrain_needed": false,
   "numeric_drift": {
@@ -79,8 +79,8 @@
       "drift": false
     },
     "FAVC": {
-      "chi2": 2.288031553690121,
-      "p_value": 0.1303751785179812,
+      "chi2": 2.2880315536901215,
+      "p_value": 0.13037517851798033,
       "drift": false
     },
     "CAEC": {
@@ -104,8 +104,8 @@
       "drift": false
     },
     "MTRANS": {
-      "chi2": 1.9063408909933686,
-      "p_value": 0.7529800664350474,
+      "chi2": 1.9063408909933688,
+      "p_value": 0.7529800664350473,
       "drift": false
     }
   },
